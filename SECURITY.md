@@ -1,11 +1,17 @@
-# Security Policy
+# 🔐 Security Policy
 
-## Supported Versions
+## 🛠️ Supported Versions
 
-Kami hanya mendukung versi terbaru dari project ini.
+Saat ini, hanya versi **terbaru** dari proyek ini yang didukung.  
+Silakan selalu gunakan versi terbaru untuk mendapatkan pembaruan keamanan.
 
-## Reporting a Vulnerability
+## 📣 Melaporkan Kerentanan (Reporting a Vulnerability)
 
-Jika Anda menemukan celah keamanan, silakan laporkan melalui email:
-**hayatimamsubekti@gmail.com**  
-Kami akan respon dalam 48 jam.
+Jika Anda menemukan celah keamanan atau kerentanan pada proyek ini,  
+silakan laporkan secara langsung melalui email berikut:
+
+📧 **hayatimamsubekti@gmail.com**
+
+Kami akan merespon laporan Anda **dalam waktu maksimal 48 jam**.
+
+Terima kasih atas kontribusinya dalam menjaga keamanan proyek ini.
