@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Form Stock Opname</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h2 { text-align: center; }
+    .form-container { max-width: 800px; margin: auto; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    td, th { border: 1px solid black; padding: 8px; text-align: left; }
+    input[type="text"], input[type="number"], select {
+      width: 100%;
+      padding: 6px;
+    }
+    button { padding: 6px 12px; font-size: 14px; cursor: pointer; margin-top: 10px; }
+    #waktuBerjalan { margin-top: 10px; text-align: center; font-weight: bold; }
+    @media (max-width: 600px) {
+      table, thead, tbody, th, td, tr { display: block; }
+      thead tr { display: none; }
+      td { position: relative; padding-left: 50%; border: none; border-bottom: 1px solid #ccc; }
+      td::before {
+        position: absolute; top: 8px; left: 10px;
+        width: 45%; padding-right: 10px;
+        white-space: nowrap; font-weight: bold;
+      }
+      tbody tr { margin-bottom: 10px; border: 1px solid #ccc; }
+      tbody td:nth-of-type(1)::before { content: "NO"; }
+      tbody td:nth-of-type(2)::before { content: "BARCODE"; }
+      tbody td:nth-of-type(3)::before { content: "QTY"; }
+      tbody td:nth-of-type(4)::before { content: "AKSI"; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Form Stock Opname</h2>
+
+    <table>
+      <tr>
+        <td>PETUGAS SO 1</td>
+        <td>
+          <select id="petugas1" required>
+            <option value="">-- Pilih Petugas --</option>
+            <option>AHAN</option><option>TOMO</option><option>HENDI</option>
+            <option>ANDI</option><option>REGEN</option><option>ARIF</option>
+            <option>STEVEN</option><option>ANTON</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>PETUGAS SO 2</td>
+        <td>
+          <select id="petugas2" required>
+            <option value="">-- Pilih Petugas --</option>
+            <option>AHAN</option><option>TOMO</option><option>HENDI</option>
+            <option>ANDI</option><option>REGEN</option><option>ARIF</option>
+            <option>STEVEN</option><option>ANTON</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>NAMA TOKO</td>
+        <td>
+          <select id="toko" required>
+            <option value="">-- Pilih Toko --</option>
+            <option>ABEPURA</option><option>BAU-BAU</option><option>BIAK</option>
+            <option>BINTUNI</option><option>BITUNG</option><option>DOBO</option>
+            <option>FAK-FAK</option><option>KAIMANA</option><option>KENDARI</option>
+            <option>KOLAKA</option><option>LABUAN BAJO</option><option>LOMBOK</option>
+            <option>LUWUK</option><option>MANOKWARI BARU</option><option>MANOKWARI LAMA</option>
+            <option>MERAUKE</option><option>NABIRE</option><option>NAMLEA</option>
+            <option>PALU</option><option>PALOPO</option><option>PARE-PARE</option>
+            <option>SENTANI</option><option>SERUI</option><option>SORONG BARU</option>
+            <option>SORONG LAMA</option><option>TANJUNG SELOR</option><option>TARAKAN</option>
+            <option>TERNATE</option><option>TIMIKA</option><option>TUAL</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>BULAN</td>
+        <td>
+          <select id="bulan" required>
+            <option value="">-- Pilih Bulan --</option>
+            <option>JANUARI</option><option>FEBRUARI</option><option>MARET</option>
+            <option>APRIL</option><option>MEI</option><option>JUNI</option>
+            <option>JULI</option><option>AGUSTUS</option><option>SEPTEMBER</option>
+            <option>OKTOBER</option><option>NOVEMBER</option><option>DESEMBER</option>
+          </select>
+        </td>
+      </tr>
+    </table>
+
+    <table>
+      <thead>
+        <tr>
+          <th>NO</th>
+          <th>BARCODE</th>
+          <th>QTY</th>
+          <th>AKSI</th>
+        </tr>
+      </thead>
+      <tbody id="so-body">
+        <tr>
+          <td>1</td>
+          <td><input type="text" name="barcode[]"></td>
+          <td><input type="number" name="qty[]" min="0"></td>
+          <td><button type="button" onclick="hapusBaris(this)">Hapus</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button type="button" onclick="tambahBaris()">Tambah Baris</button>
+    <button type="button" onclick="simpanData()">Simpan</button>
+
+    <div id="waktuBerjalan"></div>
+  </div>
+
+  <footer style="text-align: center; margin-top: 40px; font-size: 14px; color: #666;">
+    <div id="datetime">🕒 Loading...</div>
+    Dibuat oleh <a href="http://tiktok.com/@radenbimasena" target="_blank" style="color: #007bff; text-decoration: none;">@radenbimasena</a>
+  </footer>
+
+  <script>
+    function tambahBaris() {
+      const tbody = document.getElementById('so-body');
+      const rowCount = tbody.rows.length;
+      const row = tbody.insertRow();
+
+      row.innerHTML = `
+        <td>${rowCount + 1}</td>
+        <td><input type="text" name="barcode[]"></td>
+        <td><input type="number" name="qty[]" min="0"></td>
+        <td><button type="button" onclick="hapusBaris(this)">Hapus</button></td>
+      `;
+
+      row.querySelector('input[name="barcode[]"]').focus();
+    }
+
+    function hapusBaris(button) {
+      const row = button.closest('tr');
+      row.remove();
+      updateNomor();
+    }
+
+    function updateNomor() {
+      const rows = document.querySelectorAll('#so-body tr');
+      rows.forEach((row, index) => {
+        row.cells[0].innerText = index + 1;
+      });
+    }
+
+	function simpanData() {
+	  const p1 = document.getElementById("petugas1").value.trim();
+	  const p2 = document.getElementById("petugas2").value.trim();
+	  const toko = document.getElementById("toko").value.trim();
+	  const bulan = document.getElementById("bulan").value.trim();
+
+	  if (!p1 || !p2 || !toko || !bulan) {
+		alert("Semua kolom wajib diisi (Petugas, Toko, Bulan)!");
+		return;
+	  }
+
+	  const rows = document.querySelectorAll('#so-body tr');
+	  let data = "";
+
+	  rows.forEach((row) => {
+		const barcode = row.querySelector('input[name="barcode[]"]').value.trim();
+		const qty = row.querySelector('input[name="qty[]"]').value.trim();
+		if (barcode !== "" || qty !== "") {
+		  data += `${barcode},${qty}\n`;
+		}
+	  });
+
+	  const now = new Date();
+	  const pad = n => n.toString().padStart(2, '0');
+	  const filename = `${p1}-${p2}-${toko}-${bulan}-${now.getFullYear()}.${pad(now.getMonth() + 1)}.${pad(now.getDate())}.${pad(now.getHours())}.${pad(now.getMinutes())}.${pad(now.getSeconds())}.txt`;
+
+	  const blob = new Blob([data], { type: 'text/plain' });
+	  const a = document.createElement("a");
+	  a.href = URL.createObjectURL(blob);
+	  a.download = filename;
+	  a.click();
+
+	  // ⛔ Bersihkan data tersimpan setelah berhasil simpan
+	  localStorage.removeItem("soData");
+	}
+
+
+
+    function updateDateTime() {
+      const now = new Date();
+      const pad = n => n.toString().padStart(2, '0');
+      const year = now.getFullYear();
+      const month = pad(now.getMonth() + 1);
+      const day = pad(now.getDate());
+      const hours = pad(now.getHours());
+      const minutes = pad(now.getMinutes());
+      const seconds = pad(now.getSeconds());
+
+      const datetimeStr = `🕒 ${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      document.getElementById("datetime").innerText = datetimeStr;
+    }
+
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+	
+	
+	function simpanKeLocalStorage() {
+	  const data = {
+		petugas1: document.getElementById("petugas1").value,
+		petugas2: document.getElementById("petugas2").value,
+		toko: document.getElementById("toko").value,
+		bulan: document.getElementById("bulan").value,
+		rows: []
+	  };
+
+	  const rows = document.querySelectorAll('#so-body tr');
+	  rows.forEach((row) => {
+		const barcode = row.querySelector('input[name="barcode[]"]').value.trim();
+		const qty = row.querySelector('input[name="qty[]"]').value.trim();
+		data.rows.push({ barcode, qty });
+	  });
+
+	  localStorage.setItem("soData", JSON.stringify(data));
+	}
+
+
+	document.querySelectorAll('select, input').forEach(el => {
+	  el.addEventListener('input', simpanKeLocalStorage);
+	});
+
+
+	window.onload = function () {
+	  const saved = localStorage.getItem("soData");
+	  if (saved) {
+		const data = JSON.parse(saved);
+
+		document.getElementById("petugas1").value = data.petugas1 || "";
+		document.getElementById("petugas2").value = data.petugas2 || "";
+		document.getElementById("toko").value = data.toko || "";
+		document.getElementById("bulan").value = data.bulan || "";
+
+		const tbody = document.getElementById("so-body");
+		tbody.innerHTML = ""; // kosongkan dulu
+
+		data.rows.forEach((item, i) => {
+		  const row = tbody.insertRow();
+		  row.innerHTML = `
+			<td>${i + 1}</td>
+			<td><input type="text" name="barcode[]" value="${item.barcode || ''}"></td>
+			<td><input type="number" name="qty[]" value="${item.qty || ''}" min="0"></td>
+			<td><button type="button" onclick="hapusBaris(this)">Hapus</button></td>
+		  `;
+		});
+
+		updateNomor();
+	  }
+
+	  const firstBarcodeInput = document.querySelector('input[name="barcode[]"]');
+	  if (firstBarcodeInput) firstBarcodeInput.focus();
+	};
+
+  </script>
+
+</body>
+</html>
