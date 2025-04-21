@@ -71,6 +71,19 @@
       color: #888;
       font-size: 14px;
     }
+
+    .creator-info {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    .creator-info a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+    .creator-info a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -87,8 +100,39 @@
     </div>
 
     <footer>
-      Dibuat oleh Raden Bimasena • <a href="https://www.tiktok.com/@radenbimasena">hijabhasna.com</a>
-    </footer>
+    <div id="footerTime">🕒 Memuat waktu...</div>
+  </footer>
+
+  <script>
+    function updateFooterTime() {
+      const now = new Date();
+      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const gmtOffset = -now.getTimezoneOffset() / 60;
+      const gmtString = `GMT ${gmtOffset >= 0 ? '+' : ''}${gmtOffset}`;
+      
+      const timeString = `${now.getFullYear()} Tahun | ${now.getMonth() + 1} Bulan | ${now.getDate()} Tanggal | ${now.getHours()} Jam | ${now.getMinutes()} Menit | ${now.getSeconds()} Detik | ${timeZone} (${gmtString})`;
+      document.getElementById('footerTime').innerText = timeString;
+    }
+
+    function displayCreatorInfo() {
+      const creatorInfo = document.createElement('div');
+      creatorInfo.className = 'creator-info';
+      creatorInfo.innerHTML = `
+        <div>Created by Raden Bimasena</div>
+        <div style="margin-top: 5px;">
+          Follow on: 
+          <a href="http://tiktok.com/@radenbimasena" target="_blank">TikTok</a> 
+          or 
+          <a href="https://id.linkedin.com/in/hayumi" target="_blank">LinkedIn</a>
+        </div>
+      `;
+      document.body.appendChild(creatorInfo);
+    }
+
+    // Jalankan
+    setInterval(updateFooterTime, 1000);
+    displayCreatorInfo();
+  </script>
   </div>
 </body>
 </html>
