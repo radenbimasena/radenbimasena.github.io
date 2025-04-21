@@ -6,34 +6,89 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 50px;
-      background-color: #f7f7f7;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f4f8;
+      margin: 0;
+      padding: 0;
     }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .profile {
+      margin-bottom: 30px;
+    }
+
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #007acc;
+    }
+
     h1 {
+      margin-top: 15px;
+      font-size: 26px;
       color: #333;
     }
-    a {
-      display: inline-block;
-      margin: 20px;
-      padding: 15px 25px;
-      background-color: #28a745;
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .menu {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .menu a {
+      background-color: #007acc;
       color: white;
       text-decoration: none;
-      border-radius: 8px;
+      padding: 20px;
+      border-radius: 10px;
+      width: 250px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
       font-size: 18px;
-      transition: background 0.3s;
+      transition: all 0.3s ease;
     }
-    a:hover {
-      background-color: #218838;
+
+    .menu a:hover {
+      background-color: #005fa3;
+      transform: scale(1.03);
+    }
+
+    footer {
+      margin-top: 40px;
+      color: #888;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
-  <h1>Menu Produk</h1>
-  <p>Silakan pilih fitur:</p>
-  <a href="/produk/stock-opname.html">📦 Stock Opname</a>
-  <a href="/produk/penjualan.html">📝 Penjualan Manual</a>
+  <div class="container">
+    <div class="profile">
+      <img src="https://i.imgur.com/OYVpe2W.png" alt="Avatar" class="avatar">
+      <h1>📦 Menu Produk</h1>
+      <p class="subtitle">Selamat datang, silakan pilih fitur di bawah</p>
+    </div>
+
+    <div class="menu">
+      <a href="/produk/stock-opname.html">📋 Stock Opname</a>
+      <a href="/produk/penjualan.html">📝 Penjualan Manual Toko</a>
+    </div>
+
+    <footer>
+      Dibuat oleh Raden Bimasena • <a href="https://hijabhasna.com">hijabhasna.com</a>
+    </footer>
+  </div>
 </body>
 </html>
