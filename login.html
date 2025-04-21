@@ -45,6 +45,7 @@
   <button onclick="loginWithGoogle()">🔐 Login dengan Google</button>
   <div id="user-info"></div>
   <button onclick="logout()">🚪 Logout</button>
+  <button id="logoutBtn" onclick="logout()" style="display:none">🚪 Logout</button>
   <script>
   const firebaseConfig = { ... };
   firebase.initializeApp(firebaseConfig);
@@ -67,6 +68,13 @@
       location.reload();
     });
   }
+  auth.onAuthStateChanged(user => {
+  if (user) {
+    document.getElementById("logoutBtn").style.display = "block";
+  } else {
+    document.getElementById("logoutBtn").style.display = "none";
+  }
+});
   </script>
 </body>
 </html>
