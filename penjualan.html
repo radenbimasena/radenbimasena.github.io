@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perhitungan Penjualan Barang</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 15px;
+      min-height: 100vh;
+    }
+    
+    h1 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    
+    select, input[type="date"], input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      overflow-x: auto;
+      display: block;
+    }
+    
+    th, td {
+      padding: 8px;
+      text-align: center;
+      border: 1px solid #ddd;
+      white-space: nowrap;
+    }
+    
+    th {
+      background-color: #f2f2f2;
+      position: sticky;
+      top: 0;
+    }
+    
+    input[type="number"] {
+      text-align: right;
+      width: 80px;
+    }
+    
+    input.harga, input.total {
+      text-align: right;
+      width: 120px;
+    }
+    
+    .subtotal-row td {
+      font-weight: bold;
+      background-color: #f0f0f0;
+      text-align: right;
+    }
+    
+    #grandTotal {
+      font-weight: bold;
+      margin: 15px 0;
+      text-align: right;
+      font-size: 1.1rem;
+    }
+    
+    #actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    button {
+      padding: 10px 15px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      flex: 1 1 200px;
+    }
+    
+    button:hover {
+      background-color: #45a049;
+    }
+    
+    #clearDataBtn {
+      background-color: #ff4444;
+    }
+    
+    #clearDataBtn:hover {
+      background-color: #cc0000;
+    }
+    
+    footer {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    
+    .creator-info {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    
+    .creator-info a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+    
+    .creator-info a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      td, th {
+        padding: 6px 4px;
+        font-size: 0.9rem;
+      }
+      
+      input[type="number"] {
+        width: 60px;
+      }
+      
+      input.harga, input.total {
+        width: 90px;
+      }
+      
+      button {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .form-group {
+        margin-bottom: 10px;
+      }
+      
+      td, th {
+        padding: 4px 2px;
+        font-size: 0.8rem;
+      }
+      
+      input[type="number"] {
+        width: 50px;
+      }
+      
+      input.harga, input.total {
+        width: 70px;
+      }
+      
+      button {
+        flex: 1 1 150px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Perhitungan Penjualan Barang</h1>
+
+  <label for="store">Nama Toko:</label>
+  <select id="store">
+    <option value="">-- Pilih Toko --</option>
+    <option>ABEPURA</option><option>BAU-BAU</option><option>BIAK</option><option>BINTUNI</option><option>BITUNG</option><option>DOBO</option><option>FAK-FAK</option><option>KAIMANA</option><option>KENDARI</option><option>KOLAKA</option><option>LABUAN BAJO</option><option>LOMBOK</option><option>LUWUK</option><option>MANOKWARI BARU</option><option>MANOKWARI LAMA</option><option>MERAUKE</option><option>NABIRE</option><option>NAMLEA</option><option>PALU</option><option>PALOPO</option><option>PARE-PARE</option><option>SENTANI</option><option>SERUI</option><option>SORONG BARU</option><option>SORONG LAMA</option><option>TANJUNG SELOR</option><option>TARAKAN</option><option>TERNATE</option><option>TIMIKA</option><option>TUAL</option>
+  </select>
+
+  <br><br>
+
+  <label for="date">Tanggal:</label>
+  <input type="date" id="date">
+
+  <br><br>
+
+  <label for="staff">Petugas:</label>
+  <input type="text" id="staff" placeholder="Nama Petugas">
+
+  <table id="salesTable">
+    <thead>
+      <tr>
+        <th>NO</th>
+        <th>BARCODE</th>
+        <th>KODE INTERNAL</th>
+        <th>NAMA BARANG</th>
+        <th>QTY</th>
+        <th>HARGA JUAL</th>
+        <th>TOTAL</th>
+        <th>AKSI</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <div id="grandTotal">Grand Total: Rp 0</div>
+
+  <div id="actions">
+    <button onclick="nextTransaction()">Transaksi Berikutnya</button>
+    <button onclick="exportTXT()">Export TXT</button>
+    <button id="clearDataBtn" onclick="clearAllData()">Clear All Data</button>
+  </div>
+
+  <footer id="footerTime"></footer>
+
+  <script>
+    let currentTransaction = 1;
+    let itemNumberPerTransaction = {};
+
+    // Load saved data from sessionStorage if available
+    window.addEventListener('load', function() {
+      const savedData = sessionStorage.getItem('salesData');
+      if (savedData) {
+        const data = JSON.parse(savedData);
+        document.getElementById('store').value = data.store;
+        document.getElementById('date').value = data.date;
+        document.getElementById('staff').value = data.staff;
+        currentTransaction = data.currentTransaction;
+        itemNumberPerTransaction = data.itemNumberPerTransaction;
+        
+        // Rebuild the table from saved data
+        data.items.forEach(item => {
+          addRowFromData(item);
+        });
+        
+        updateGrandTotal();
+      } else {
+        // No saved data, add initial row
+        addRow();
+      }
+
+      // Show clear button if exported flag exists
+      if (sessionStorage.getItem('exported')) {
+        document.getElementById('clearDataBtn').style.display = 'block';
+      }
+    });
+
+    // Save data to sessionStorage before page unload
+    window.addEventListener('beforeunload', function() {
+      // Only save if not exported
+      if (!sessionStorage.getItem('exported')) {
+        saveCurrentState();
+      }
+    });
+
+    function saveCurrentState() {
+      const items = [];
+      const rows = document.querySelectorAll('#salesTable tbody tr:not(.subtotal-row)');
+      
+      rows.forEach(row => {
+        items.push({
+          barcode: row.cells[1].querySelector('input').value,
+          kodeInternal: row.cells[2].querySelector('input').value,
+          namaBarang: row.cells[3].querySelector('input').value,
+          qty: row.cells[4].querySelector('input').value,
+          hargaJual: row.cells[5].querySelector('input').value,
+          total: row.cells[6].querySelector('input').value,
+          transactionId: row.getAttribute('data-transaction')
+        });
+      });
+      
+      const data = {
+        store: document.getElementById('store').value,
+        date: document.getElementById('date').value,
+        staff: document.getElementById('staff').value,
+        currentTransaction: currentTransaction,
+        itemNumberPerTransaction: itemNumberPerTransaction,
+        items: items
+      };
+      
+      sessionStorage.setItem('salesData', JSON.stringify(data));
+    }
+
+    function addRowFromData(item) {
+      const table = document.getElementById('salesTable').getElementsByTagName('tbody')[0];
+      const newRow = table.insertRow();
+      newRow.setAttribute("data-transaction", item.transactionId);
+      newRow.innerHTML = `
+        <td>${itemNumberPerTransaction[item.transactionId]}</td>
+        <td><input type="text" placeholder="Barcode" value="${item.barcode}"></td>
+        <td><input type="text" placeholder="Kode Internal" value="${item.kodeInternal}"></td>
+        <td><input type="text" placeholder="Nama Barang" value="${item.namaBarang}"></td>
+        <td><input type="number" placeholder="Qty" min="1" value="${item.qty}" oninput="calculateTotal(this)"></td>
+        <td><input type="text" class="harga" placeholder="Harga Jual" value="${item.hargaJual}" oninput="formatHarga(this)" onblur="calculateTotal(this)"></td>
+        <td><input type="text" class="total" placeholder="Total" value="${item.total}" readonly></td>
+        <td>
+          <button onclick="addRow()">Tambah</button>
+          <button onclick="deleteRow(this)">Hapus</button>
+        </td>
+      `;
+      
+      removeSubtotalRow(item.transactionId);
+      addSubtotalRow(item.transactionId);
+      updateSubtotal(item.transactionId);
+    }
+
+    function formatRupiah(angka) {
+      if (!angka) return "0";
+      const numberString = angka.toString().replace(/[^,\d]/g, '');
+      const split = numberString.split(',');
+      const sisa = split[0].length % 3;
+      let rupiah = split[0].substr(0, sisa);
+      const ribuan = split[0].substr(sisa).match(/\d{3}/g);
+      
+      if (ribuan) {
+        const separator = sisa ? '.' : '';
+        rupiah += separator + ribuan.join('.');
+      }
+      
+      rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+      return rupiah ? 'Rp ' + rupiah : 'Rp 0';
+    }
+
+    function parseRupiah(rupiah) {
+      return parseInt(rupiah.replace(/[^0-9]/g, ''));
+    }
+
+    function addRow() {
+      const table = document.getElementById('salesTable').getElementsByTagName('tbody')[0];
+      if (!itemNumberPerTransaction[currentTransaction]) {
+        itemNumberPerTransaction[currentTransaction] = 1;
+      } else {
+        itemNumberPerTransaction[currentTransaction]++;
+      }
+
+      const newRow = table.insertRow();
+      newRow.setAttribute("data-transaction", currentTransaction);
+      newRow.innerHTML = `
+        <td>${itemNumberPerTransaction[currentTransaction]}</td>
+        <td><input type="text" placeholder="Barcode"></td>
+        <td><input type="text" placeholder="Kode Internal"></td>
+        <td><input type="text" placeholder="Nama Barang"></td>
+        <td><input type="number" placeholder="Qty" min="1" oninput="calculateTotal(this)"></td>
+        <td><input type="text" class="harga" placeholder="Harga Jual" oninput="formatHarga(this)" onblur="calculateTotal(this)"></td>
+        <td><input type="text" class="total" placeholder="Total" readonly></td>
+        <td>
+          <button onclick="addRow()">Tambah</button>
+          <button onclick="deleteRow(this)">Hapus</button>
+        </td>
+      `;
+
+      removeSubtotalRow(currentTransaction);
+      addSubtotalRow(currentTransaction);
+      updateSubtotal(currentTransaction);
+      saveCurrentState();
+    }
+
+    function formatHarga(input) {
+      const value = input.value.replace(/[^0-9]/g, '');
+      input.value = formatRupiah(value);
+      saveCurrentState();
+    }
+
+    function removeSubtotalRow(transactionId) {
+      const rows = document.querySelectorAll(`#salesTable tbody tr.subtotal-row[data-transaction='${transactionId}']`);
+      rows.forEach(row => row.remove());
+    }
+
+    function calculateTotal(input) {
+      const row = input.closest('tr');
+      const qty = parseFloat(row.cells[4].querySelector('input').value) || 0;
+      const hargaInput = row.cells[5].querySelector('input');
+      const price = parseRupiah(hargaInput.value) || 0;
+
+      const total = qty * price;
+      row.cells[6].querySelector('input').value = formatRupiah(total);
+      updateSubtotal(currentTransaction);
+      saveCurrentState();
+    }
+
+    function updateSubtotal(transactionId) {
+      let total = 0;
+      const rows = document.querySelectorAll(`#salesTable tbody tr[data-transaction='${transactionId}']:not(.subtotal-row)`);
+      rows.forEach(row => {
+        const val = parseRupiah(row.cells[6].querySelector('input').value) || 0;
+        total += val;
+      });
+      let subtotalRow = document.querySelector(`.subtotal-row[data-transaction='${transactionId}'] td`);
+      if (subtotalRow) {
+        subtotalRow.innerText = `Subtotal Transaksi ${transactionId}: ${formatRupiah(total)}`;
+      } else {
+        addSubtotalRow(transactionId);
+      }
+      updateGrandTotal();
+    }
+
+    function updateGrandTotal() {
+      let grand = 0;
+      const subtotals = document.querySelectorAll('.subtotal-row td');
+      subtotals.forEach(cell => {
+        const match = cell.innerText.match(/Rp ([\d.,]+)/);
+        if (match) {
+          grand += parseRupiah(match[0]);
+        }
+      });
+      document.getElementById('grandTotal').innerText = `Grand Total: ${formatRupiah(grand)}`;
+    }
+
+    function addSubtotalRow(transactionId) {
+      const table = document.getElementById('salesTable').getElementsByTagName('tbody')[0];
+      const subtotalRow = document.createElement('tr');
+      subtotalRow.className = 'subtotal-row';
+      subtotalRow.setAttribute("data-transaction", transactionId);
+      const cell = document.createElement('td');
+      cell.colSpan = 8;
+      cell.style.textAlign = "right";
+      cell.innerText = `Subtotal Transaksi ${transactionId}: Rp 0`;
+      subtotalRow.appendChild(cell);
+      table.appendChild(subtotalRow);
+    }
+
+    function nextTransaction() {
+      currentTransaction++;
+      addRow();
+      saveCurrentState();
+    }
+
+    function deleteRow(btn) {
+      const row = btn.closest('tr');
+      const transactionId = row.getAttribute('data-transaction');
+      row.remove();
+      updateSubtotal(transactionId);
+      saveCurrentState();
+    }
+
+    function exportTXT() {
+      const storeName = document.getElementById('store').value;
+      const date = document.getElementById('date').value;
+      const staff = document.getElementById('staff').value;
+      
+      if (!storeName || !date || !staff) {
+        alert('Harap isi Nama Toko, Tanggal, dan Petugas terlebih dahulu!');
+        return;
+      }
+      
+      const dateObj = new Date(date);
+      const now = new Date();
+      
+      // Format: [Nama toko],[tanggal],[petugas],[tahun],[bulan],[tanggal],[jam],[menit],[detik]
+      const filename = `${storeName},${date},${staff},${dateObj.getFullYear()},${dateObj.getMonth()+1},${dateObj.getDate()},${now.getHours()},${now.getMinutes()},${now.getSeconds()}.txt`;
+      
+      // Format isi: [barcode],[kode internal],[nama barang],[qty],[harga jual],[total]
+      const rows = document.querySelectorAll('#salesTable tbody tr:not(.subtotal-row)');
+      let content = "";
+      
+      rows.forEach(row => {
+        const barcode = row.cells[1].querySelector('input').value || '';
+        const kodeInternal = row.cells[2].querySelector('input').value || '';
+        const namaBarang = row.cells[3].querySelector('input').value || '';
+        const qty = row.cells[4].querySelector('input').value || '0';
+        const hargaJual = parseRupiah(row.cells[5].querySelector('input').value) || '0';
+        const total = parseRupiah(row.cells[6].querySelector('input').value) || '0';
+        
+        content += `${barcode},${kodeInternal},${namaBarang},${qty},${hargaJual},${total}\n`;
+      });
+      
+      const blob = new Blob([content], { type: 'text/plain' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+      
+      // Set exported flag and show clear button
+      sessionStorage.setItem('exported', 'true');
+      document.getElementById('clearDataBtn').style.display = 'block';
+      
+      // Don't clear data automatically - let user decide when to clear
+    }
+
+    function clearAllData() {
+      // Clear session storage
+      sessionStorage.removeItem('salesData');
+      sessionStorage.removeItem('exported');
+      
+      // Reset form
+      document.getElementById('store').value = '';
+      document.getElementById('date').value = '';
+      document.getElementById('staff').value = '';
+      
+      // Clear table
+      const table = document.getElementById('salesTable').getElementsByTagName('tbody')[0];
+      table.innerHTML = '';
+      
+      // Reset counters
+      currentTransaction = 1;
+      itemNumberPerTransaction = {};
+      
+      // Hide clear button
+      document.getElementById('clearDataBtn').style.display = 'none';
+      
+      // Add initial row
+      addRow();
+      
+      // Reset grand total
+      document.getElementById('grandTotal').innerText = 'Grand Total: Rp 0';
+    }
+
+    function updateFooterTime() {
+      const now = new Date();
+      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const gmtOffset = -now.getTimezoneOffset() / 60; // Get GMT offset in hours
+      const gmtString = `GMT ${gmtOffset >= 0 ? '+' : ''}${gmtOffset}`;
+      
+      const timeString = `${now.getFullYear()} Tahun | ${now.getMonth() + 1} Bulan | ${now.getDate()} Tanggal | ${now.getHours()} Jam | ${now.getMinutes()} Menit | ${now.getSeconds()} Detik | ${timeZone} (${gmtString})`;
+      document.getElementById('footerTime').innerText = timeString;
+    }
+	
+		// Creator information
+	function displayCreatorInfo() {
+	  const creatorInfo = document.createElement('div');
+	  creatorInfo.style.marginTop = '20px';
+	  creatorInfo.style.textAlign = 'center';
+	  creatorInfo.style.fontSize = '14px';
+	  creatorInfo.innerHTML = `
+		<div>Created by Raden Bimasena</div>
+		<div style="margin-top: 5px;">
+		  Follow on: 
+		  <a href="http://tiktok.com/@radenbimasena" target="_blank" style="color: #0066cc; text-decoration: none;">TikTok</a> 
+		  or 
+		  <a href="https://id.linkedin.com/in/hayumi" target="_blank" style="color: #0066cc; text-decoration: none;">LinkedIn</a>
+		</div>
+	  `;
+	  document.body.appendChild(creatorInfo);
+	}
+
+	// Call the functions when page loads
+	window.addEventListener('load', function() {
+	  setInterval(updateFooterTime, 1000);
+	  displayCreatorInfo();
+	});
+
+    setInterval(updateFooterTime, 1000);
+  </script>
+</body>
+</html>
