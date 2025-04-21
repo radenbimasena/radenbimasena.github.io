@@ -44,24 +44,29 @@
   <p>Gunakan akun Google kamu untuk masuk dan akses halaman produk</p>
   <button onclick="loginWithGoogle()">🔐 Login dengan Google</button>
   <div id="user-info"></div>
-
+  <button onclick="logout()">🚪 Logout</button>
   <script>
-const firebaseConfig = { ... }; // Konfigurasi project Firebase
-firebase.initializeApp(firebaseConfig); // Inisialisasi Firebase
-const auth = firebase.auth(); // Pakai auth dari Firebase
+  const firebaseConfig = { ... };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
 
-function loginWithGoogle() {
-  const provider = new firebase.auth.GoogleAuthProvider(); // Provider Google
-  auth.signInWithPopup(provider) // Munculkan popup login
-    .then(result => {
-      // ✅ Kalau login berhasil, langsung redirect ke halaman produk
-      window.location.href = "/produk/";
-    })
-    .catch(error => {
-      // ❌ Kalau gagal, munculkan pesan error
-      alert("Login gagal: " + error.message);
+  function loginWithGoogle() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider)
+      .then(result => {
+        window.location.href = "/produk/";
+      })
+      .catch(error => {
+        alert("Login gagal: " + error.message);
+      });
+  }
+
+  function logout() {
+    auth.signOut().then(() => {
+      alert("Berhasil logout");
+      location.reload();
     });
-}
+  }
   </script>
 </body>
 </html>
