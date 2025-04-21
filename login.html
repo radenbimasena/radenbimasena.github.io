@@ -46,24 +46,22 @@
   <div id="user-info"></div>
 
   <script>
-    const firebaseConfig = {'apiKey': 'AIzaSyBRrKuPP5iTD23ougJchfyEx6WxSGdm99M', 'authDomain': 'hijab-hasna.firebaseapp.com', 'projectId': 'hijab-hasna', 'storageBucket': 'hijab-hasna.firebasestorage.app', 'messagingSenderId': '501907188626', 'appId': '1:501907188626:web:691847ee29997a23456f4b', 'measurementId': 'G-XQB8SHBNWT'};
+const firebaseConfig = { ... }; // Konfigurasi project Firebase
+firebase.initializeApp(firebaseConfig); // Inisialisasi Firebase
+const auth = firebase.auth(); // Pakai auth dari Firebase
 
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
-    function loginWithGoogle() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      auth.signInWithPopup(provider)
-        .then(result => {
-          const user = result.user;
-          document.getElementById("user-info").innerHTML =
-            "✅ Login berhasil sebagai: <b>" + user.displayName + "</b> (" + user.email + ")<br><br>" +
-            '<a href="/produk/">➡️ Masuk ke Produk</a>';
-        })
-        .catch(error => {
-          alert("Login gagal: " + error.message);
-        });
-    }
+function loginWithGoogle() {
+  const provider = new firebase.auth.GoogleAuthProvider(); // Provider Google
+  auth.signInWithPopup(provider) // Munculkan popup login
+    .then(result => {
+      // ✅ Kalau login berhasil, langsung redirect ke halaman produk
+      window.location.href = "/produk/";
+    })
+    .catch(error => {
+      // ❌ Kalau gagal, munculkan pesan error
+      alert("Login gagal: " + error.message);
+    });
+}
   </script>
 </body>
 </html>
