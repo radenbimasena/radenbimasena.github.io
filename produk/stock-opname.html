@@ -287,5 +287,31 @@ function simpanKeLocalStorage() {
     }
   });
 </script>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBRrKuPP5iTD23ougJchfyEx6WxSGdm99M",
+    authDomain: "hijab-hasna.firebaseapp.com",
+    projectId: "hijab-hasna",
+    storageBucket: "hijab-hasna.firebasestorage.app",
+    messagingSenderId: "501907188626",
+    appId: "1:501907188626:web:691847ee29997a23456f4b",
+    measurementId: "G-XQB8SHBNWT"
+  };
+
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+
+  const auth = firebase.auth();
+  auth.onAuthStateChanged(user => {
+    if (!user) {
+      window.location.href = "/login.html";
+    }
+  });
+</script>
 </body>
 </html>
