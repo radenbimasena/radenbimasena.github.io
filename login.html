@@ -43,38 +43,51 @@
   <h1>Login ke HijabHasna</h1>
   <p>Gunakan akun Google kamu untuk masuk dan akses halaman produk</p>
   <button onclick="loginWithGoogle()">🔐 Login dengan Google</button>
+
   <div id="user-info"></div>
-  <button onclick="logout()">🚪 Logout</button>
+
+  <!-- Tombol Logout hanya muncul kalau user login -->
   <button id="logoutBtn" onclick="logout()" style="display:none">🚪 Logout</button>
+
   <script>
-  const firebaseConfig = { ... };
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
+    const firebaseConfig = {
+      apiKey: "AIzaSyBRrKuPP5iTD23ougJchfyEx6WxSGdm99M",
+      authDomain: "hijab-hasna.firebaseapp.com",
+      projectId: "hijab-hasna",
+      storageBucket: "hijab-hasna.firebasestorage.app",
+      messagingSenderId: "501907188626",
+      appId: "1:501907188626:web:691847ee29997a23456f4b",
+      measurementId: "G-XQB8SHBNWT"
+    };
 
-  function loginWithGoogle() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider)
-      .then(result => {
-        window.location.href = "/produk/";
-      })
-      .catch(error => {
-        alert("Login gagal: " + error.message);
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    function loginWithGoogle() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider)
+        .then(() => {
+          window.location.href = "/produk/";
+        })
+        .catch(error => {
+          alert("Login gagal: " + error.message);
+        });
+    }
+
+    function logout() {
+      auth.signOut().then(() => {
+        alert("Berhasil logout");
+        location.reload();
       });
-  }
+    }
 
-  function logout() {
-    auth.signOut().then(() => {
-      alert("Berhasil logout");
-      location.reload();
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        document.getElementById("logoutBtn").style.display = "block";
+      } else {
+        document.getElementById("logoutBtn").style.display = "none";
+      }
     });
-  }
-  auth.onAuthStateChanged(user => {
-  if (user) {
-    document.getElementById("logoutBtn").style.display = "block";
-  } else {
-    document.getElementById("logoutBtn").style.display = "none";
-  }
-});
   </script>
 </body>
 </html>
