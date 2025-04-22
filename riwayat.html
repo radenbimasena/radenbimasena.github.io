@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Riwayat Aktivitas - HijabHasna</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7f9;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: white;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #007acc;
+      color: white;
+    }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+    #userInfo {
+      text-align: right;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="userInfo">Memuat pengguna...</div>
+  <h1>Riwayat Aktivitas Pengguna</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>User</th>
+        <th>Email</th>
+        <th>Jenis</th>
+        <th>Waktu</th>
+        <th>Data</th>
+      </tr>
+    </thead>
+    <tbody id="riwayatBody">
+    </tbody>
+  </table>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBRrKuPP5iTD23ougJchfyEx6WxSGdm99M",
+      authDomain: "hijab-hasna.firebaseapp.com",
+      projectId: "hijab-hasna",
+      storageBucket: "hijab-hasna.firebasestorage.app",
+      messagingSenderId: "501907188626",
+      appId: "1:501907188626:web:691847ee29997a23456f4b",
+      measurementId: "G-XQB8SHBNWT"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const auth = firebase.auth();
+
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = "/login.html";
+      } else {
+        document.getElementById("userInfo").innerText = `Login sebagai: ${user.displayName || user.email}`;
+        loadRiwayat();
+      }
+    });
+
+    async function loadRiwayat() {
+      const tbody = document.getElementById("riwayatBody");
+      const snapshot = await db.collection("riwayat").orderBy("timestamp", "desc").get();
+      let no = 1;
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const waktu = data.timestamp?.toDate().toLocaleString("id-ID") || "-";
+        const row = `<tr>
+          <td>${no++}</td>
+          <td>${data.user}</td>
+          <td>${data.email}</td>
+          <td>${data.jenis}</td>
+          <td>${waktu}</td>
+          <td><pre>${data.data?.substring(0, 100)}...</pre></td>
+        </tr>`;
+        tbody.insertAdjacentHTML("beforeend", row);
+      });
+    }
+  </script>
+</body>
+</html>
