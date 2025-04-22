@@ -185,6 +185,10 @@
 <button onclick="goToHome()" style="background-color: #2196F3; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; margin-bottom: 20px;">
   ⬅ Kembali ke Menu Awal
 </button>
+<div style="text-align: right; margin-bottom: 10px;">
+  👤 Login sebagai: <span id="userName">Loading...</span>
+</div>
+
 
   <h1>Perhitungan Penjualan Manual</h1>
 
@@ -585,6 +589,10 @@
 
   auth.onAuthStateChanged(user => {
     if (!user) {
+      window.location.href = "/login.html";
+    } else {
+      document.getElementById("userName").textContent = user.displayName || user.email;
+    }
       window.location.href = "/login.html"; // redirect kalau belum login
     }
   });
@@ -612,6 +620,10 @@
   const auth = firebase.auth();
   auth.onAuthStateChanged(user => {
     if (!user) {
+      window.location.href = "/login.html";
+    } else {
+      document.getElementById("userName").textContent = user.displayName || user.email;
+    }
       window.location.href = "/login.html";
     }
   });
