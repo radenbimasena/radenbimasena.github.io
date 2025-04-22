@@ -90,9 +90,10 @@
 <button onclick="goToHome()" style="background-color: #2196F3; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; margin-bottom: 20px;">
   ⬅ Kembali ke Menu Awal
 </button>
-<div id="user-info" style="text-align:right; margin-bottom:10px; font-weight:bold; display: none;">
-  👤 Login sebagai: <span id="userName">...</span>
+<div style="text-align: right; margin-bottom: 10px;">
+  👤 Login sebagai: <span id="userName">Loading...</span>
 </div>
+
 
 <div class="form-container">
   <h2>Form Stock Opname</h2>
@@ -203,6 +204,7 @@ function simpanData() {
   a.click();
 
   localStorage.removeItem("soData");
+  simpanKeFirestore('stock-opname', data);
 }
 
 
@@ -284,17 +286,15 @@ function simpanKeLocalStorage() {
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
 
-auth.onAuthStateChanged(user => {
-  if (!user) {
-    window.location.href = "/login.html";
-  } else {
-    const infoDiv = document.getElementById("user-info");
-    const nameSpan = document.getElementById("userName");
-    nameSpan.textContent = user.displayName || user.email;
-    infoDiv.style.display = "block";
-  }
-});
-
+  auth.onAuthStateChanged(user => {
+    if (!user) {
+      window.location.href = "/login.html";
+    } else {
+      document.getElementById("userName").textContent = user.displayName || user.email;
+    }
+      window.location.href = "/login.html"; // redirect kalau belum login
+    }
+  });
 </script>
 
 <!-- Firebase SDK -->
@@ -326,5 +326,26 @@ auth.onAuthStateChanged(user => {
     }
   });
 </script>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script>
+  const db = firebase.firestore();
+  function simpanKeFirestore(jenis, isiData) {
+    const user = firebase.auth().currentUser;
+    if (!user) return;
+    db.collection("riwayat").add({
+      user: user.displayName || "Tanpa Nama",
+      email: user.email,
+      jenis: jenis,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      data: isiData
+    }).then(() => {
+      console.log("Riwayat tersimpan.");
+    }).catch((err) => {
+      console.error("Gagal simpan riwayat:", err);
+    });
+  }
+</script>
+
 </body>
 </html>
