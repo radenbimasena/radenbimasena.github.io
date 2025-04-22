@@ -90,10 +90,9 @@
 <button onclick="goToHome()" style="background-color: #2196F3; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; margin-bottom: 20px;">
   ⬅ Kembali ke Menu Awal
 </button>
-<div style="text-align: right; margin-bottom: 10px;">
-  👤 Login sebagai: <span id="userName">Loading...</span>
+<div id="user-info" style="text-align:right; margin-bottom:10px; font-weight:bold; display: none;">
+  👤 Login sebagai: <span id="userName">...</span>
 </div>
-
 
 <div class="form-container">
   <h2>Form Stock Opname</h2>
@@ -315,16 +314,16 @@ function simpanKeLocalStorage() {
     firebase.initializeApp(firebaseConfig);
   }
 
-  const auth = firebase.auth();
-  auth.onAuthStateChanged(user => {
-    if (!user) {
-      window.location.href = "/login.html";
-    } else {
-      document.getElementById("userName").textContent = user.displayName || user.email;
-    }
-      window.location.href = "/login.html";
-    }
-  });
+auth.onAuthStateChanged(user => {
+  if (!user) {
+    window.location.href = "/login.html";
+  } else {
+    const infoDiv = document.getElementById("user-info");
+    const nameSpan = document.getElementById("userName");
+    nameSpan.textContent = user.displayName || user.email;
+    infoDiv.style.display = "block";
+  }
+});
 </script>
 
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
