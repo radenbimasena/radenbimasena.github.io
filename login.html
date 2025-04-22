@@ -67,7 +67,7 @@
       const provider = new firebase.auth.GoogleAuthProvider();
       auth.signInWithPopup(provider)
         .then(() => {
-          window.location.href = "/produk/";
+          window.location.href = "/"; // 🔁 ke halaman utama
         })
         .catch(error => {
           alert("Login gagal: " + error.message);
