@@ -9,15 +9,6 @@
       font-family: 'Playfair Display', serif;
       margin: 20px;
     }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-    }
-    header img {
-      height: 50px;
-    }
     table {
       border-collapse: collapse;
       width: 100%;
@@ -32,9 +23,6 @@
       padding-left: 15px;
       text-align: left;
     }
-    #authSection {
-      margin-top: 20px;
-    }
     button {
       margin: 1px;
       padding: 6px 12px;
@@ -42,12 +30,17 @@
   </style>
 </head>
 <body>
+
+<!-- Tombol kembali ke menu -->
 <button onclick="goToHome()" style="background-color: #2196F3; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; margin-bottom: 20px;">
   ⬅ Kembali ke Menu Awal
 </button>
+
+<!-- Info user login -->
 <div id="user-info" style="text-align:right; margin-bottom:10px; font-weight:bold; display: none;">
   👤 Login sebagai: <span id="userName">...</span>
 </div>
+
 <h2>Report Stok Opname Toko 2025</h2>
 
 <table id="soTable">
@@ -94,31 +87,24 @@
     apiKey: "AIzaSyBRrKuPP5iTD23ougJchfyEx6WxSGdm99M",
     authDomain: "hijab-hasna.firebaseapp.com",
     projectId: "hijab-hasna",
-    // tambahkan lainnya jika perlu
   };
 
   firebase.initializeApp(firebaseConfig);
 
   const adminEmails = ["zahsui57@gmail.com", "hayatimamsubekti@gmail.com", "ummizakiyyah1@gmail.com"];
 
-firebase.auth().onAuthStateChanged((user) => {
-  if (user) {
-    document.getElementById("user-info").style.display = "block";
-    document.getElementById("userName").textContent = user.email;
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      document.getElementById("user-info").style.display = "block";
+      document.getElementById("userName").textContent = user.email;
 
-    const isAdmin = adminEmails.includes(user.email);
-    toggleFormAccess(isAdmin);
-  } else {
-    // 👇 Ubah dari ini:
-    // alert("Silakan login terlebih dahulu.");
-    // window.location.href = "/login.html";
-
-    // 👇 Menjadi ini:
-    console.log("User belum login, akses terbatas.");
-    toggleFormAccess(false); // non-admin access
-  }
-});
-
+      const isAdmin = adminEmails.includes(user.email);
+      toggleFormAccess(isAdmin);
+    } else {
+      alert("Silakan login terlebih dahulu.");
+      window.location.href = "/login.html";
+    }
+  });
 
   function login() {
     const provider = new firebase.auth.GoogleAuthProvider();
