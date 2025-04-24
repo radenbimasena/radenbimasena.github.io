@@ -101,20 +101,24 @@
 
   const adminEmails = ["zahsui57@gmail.com", "hayatimamsubekti@gmail.com", "ummizakiyyah1@gmail.com"];
 
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      // Tampilkan info user login
-      document.getElementById("user-info").style.display = "block";
-      document.getElementById("userName").textContent = user.email;
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    document.getElementById("user-info").style.display = "block";
+    document.getElementById("userName").textContent = user.email;
 
-      // Cek admin
-      const isAdmin = adminEmails.includes(user.email);
-      toggleFormAccess(isAdmin);
-    } else {
-      alert("Silakan login terlebih dahulu.");
-      window.location.href = "/login.html";
-    }
-  });
+    const isAdmin = adminEmails.includes(user.email);
+    toggleFormAccess(isAdmin);
+  } else {
+    // 👇 Ubah dari ini:
+    // alert("Silakan login terlebih dahulu.");
+    // window.location.href = "/login.html";
+
+    // 👇 Menjadi ini:
+    console.log("User belum login, akses terbatas.");
+    toggleFormAccess(false); // non-admin access
+  }
+});
+
 
   function login() {
     const provider = new firebase.auth.GoogleAuthProvider();
