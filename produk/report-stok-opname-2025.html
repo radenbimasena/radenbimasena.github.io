@@ -94,24 +94,27 @@
     apiKey: "AIzaSyBRrKuPP5iTD23ougJchfyEx6WxSGdm99M",
     authDomain: "hijab-hasna.firebaseapp.com",
     projectId: "hijab-hasna",
-    // tambahkan sesuai Firebase kamu
+    // tambahkan lainnya jika perlu
   };
 
   firebase.initializeApp(firebaseConfig);
 
-  const adminEmails = ["zahsui57@gmail.com", "hayatimamsubekti@gmail.com", "ummizakiyyah1@gmail.com"]; // daftar admin
+  const adminEmails = ["zahsui57@gmail.com", "hayatimamsubekti@gmail.com", "ummizakiyyah1@gmail.com"];
 
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-      document.getElementById("userEmail").textContent = `Login sebagai: ${user.email}`;
+      // Tampilkan info user login
+      document.getElementById("user-info").style.display = "block";
+      document.getElementById("userName").textContent = user.email;
+
+      // Cek admin
       const isAdmin = adminEmails.includes(user.email);
       toggleFormAccess(isAdmin);
     } else {
       alert("Silakan login terlebih dahulu.");
-      window.location.href = "login.html";
+      window.location.href = "/login.html";
     }
   });
-
 
   function login() {
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -122,6 +125,10 @@
     firebase.auth().signOut().then(() => {
       location.reload();
     });
+  }
+
+  function goToHome() {
+    window.location.href = "/index.html";
   }
 
   function toggleFormAccess(isAdmin) {
@@ -135,9 +142,9 @@
 
   function hitungSelisih(input) {
     const row = input.closest("tr");
-    const sebelumSO = row.cells[3].querySelector("input").value || 0;
-    const sesudahSO = row.cells[4].querySelector("input").value || 0;
-    const selisih = parseInt(sebelumSO) - parseInt(sesudahSO);
+    const sebelumSO = parseInt(row.cells[3].querySelector("input").value) || 0;
+    const sesudahSO = parseInt(row.cells[4].querySelector("input").value) || 0;
+    const selisih = sebelumSO - sesudahSO;
     row.querySelector(".selisih").textContent = selisih;
   }
 
