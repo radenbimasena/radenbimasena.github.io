@@ -114,11 +114,11 @@
 });
 
 
-  function muatDariLocalStorage() {
+function muatDariLocalStorage() {
   const data = JSON.parse(localStorage.getItem("reportSO2025"));
-  if (data && data.length > 0) {
+  if (data && Array.isArray(data) && data.length > 0) {
     const table = document.getElementById("soTable").getElementsByTagName("tbody")[0];
-    table.innerHTML = "";
+    table.innerHTML = ""; // Kosongkan table sebelum menambahkan data baru
     data.forEach((item, i) => {
       const row = table.insertRow(-1);
       row.innerHTML = `
@@ -137,7 +137,6 @@
     });
   }
 }
-
 
   function login() {
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -198,13 +197,12 @@ function tambahBaris() {
       <input type="file" multiple onchange="previewFiles(this)">
       <ul class="file-list"></ul>
     </td>
-    <td>
-      <button onclick="tambahBaris()">Tambah Baris</button>
-    </td>
+    <td><button onclick="tambahBaris()">Tambah Baris</button></td>
   `;
 
-  simpanKeLocalStorage(); // ← Tambahkan ini agar baris langsung disimpan
+  simpanKeLocalStorage(); // Pastikan data disimpan setelah baris ditambahkan
 }
+
 
 function hitungSelisih(input) {
   const row = input.closest("tr");
