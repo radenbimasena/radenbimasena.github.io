@@ -97,16 +97,13 @@
 
   const adminEmails = ["zahsui57@gmail.com", "hayatimamsubekti@gmail.com", "ummizakiyyah1@gmail.com"];
 
- firebase.auth().onAuthStateChanged((user) => {
+firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     document.getElementById("user-info").style.display = "block";
     document.getElementById("userName").textContent = user.email;
 
-    const isAdmin = adminEmails.includes(user.email);
-    toggleFormAccess(isAdmin);
-
-    // ⬇ Tambahkan ini untuk memuat data dari localStorage
-    muatDariLocalStorage();
+    // Load data dari localStorage saat user login
+    muatDariLocalStorage(); // Pastikan data dimuat setelah login
   } else {
     alert("Silakan login terlebih dahulu.");
     window.location.href = "/login.html";
@@ -116,7 +113,7 @@
 
 function muatDariLocalStorage() {
   const data = JSON.parse(localStorage.getItem("reportSO2025"));
-  if (data && Array.isArray(data) && data.length > 0) {
+  if (data && data.length > 0) {
     const table = document.getElementById("soTable").getElementsByTagName("tbody")[0];
     table.innerHTML = ""; // Kosongkan table sebelum menambahkan data baru
     data.forEach((item, i) => {
@@ -135,6 +132,8 @@ function muatDariLocalStorage() {
         <td><button onclick="tambahBaris()">Tambah Baris</button></td>
       `;
     });
+  } else {
+    console.log("Tidak ada data di localStorage.");
   }
 }
 
@@ -213,7 +212,7 @@ function hitungSelisih(input) {
   simpanKeLocalStorage();
 }
 
-  function simpanKeLocalStorage() {
+function simpanKeLocalStorage() {
   const rows = [];
   document.querySelectorAll("#soTable tbody tr").forEach(tr => {
     rows.push({
@@ -223,6 +222,7 @@ function hitungSelisih(input) {
       sesudah: tr.cells[4].querySelector("input").value,
     });
   });
+  // Menyimpan data ke localStorage dengan kunci yang konsisten
   localStorage.setItem("reportSO2025", JSON.stringify(rows));
 }
 
