@@ -237,9 +237,56 @@
   <br><br>
   <p style="margin-top: 50px;">( <input type="text" name="nama_ortu" placeholder="Nama" style="border:none; border-bottom:1px solid #000; background:transparent; width:250px; text-align:center;"> )</p>
 </div>
-
 </form>
+<!-- Tambahkan tombol submit di dalam tag <form> -->
+<button type="submit" style="display: block; margin: 20px auto; padding: 10px 20px; background-color: #e4002b; color: white; border: none; border-radius: 5px; cursor: pointer;">
+  Daftar Sekarang
+</button>
 
+<script>
+  document.querySelector('form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Tampilkan loading
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.innerHTML = 'Mengirim...';
+    
+    // Format data
+    const formData = new FormData(this);
+    const data = {};
+    formData.forEach((value, key) => data[key] = value);
+    
+    // Kirim ke Google Apps Script
+    fetch('https://script.google.com/macros/s/AKfycbzUh0OOVb9aYuO6vFW2ihMIu1jPf0ms5PX4irFWR07QHD6xrWv6t3pIKH0HzLkupRbyrg/exec', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      if (!response.ok) throw new Error('Network error');
+      return response.json();
+    })
+    .then(result => {
+      if(result.result === 'success') {
+        alert('Pendaftaran berhasil! Data telah tersimpan.');
+        this.reset();
+      } else {
+        throw new Error(result.error || 'Unknown error');
+      }
+    })
+    .catch(error => {
+      alert('Gagal mengirim: ' + error.message);
+      console.error('Error:', error);
+    })
+    .finally(() => {
+      btn.disabled = false;
+      btn.innerHTML = 'Daftar Sekarang';
+    });
+  });
+</script>
 </body>
 </html>
 
