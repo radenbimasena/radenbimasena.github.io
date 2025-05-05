@@ -30,7 +30,7 @@
 
     iframe {
       width: 100%;
-      height: 80vh; /* Menggunakan 80% dari tinggi layar untuk memastikan tampilan penuh */
+      height: 80vh; /* Menggunakan 80% dari tinggi layar */
       border: none;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       border-radius: 8px;
@@ -67,16 +67,58 @@
       }
     }
   </style>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBRrKuPP5iTD23ougJchfyEx6WxSGdm99M",
+      authDomain: "hijab-hasna.firebaseapp.com",
+      projectId: "hijab-hasna",
+      storageBucket: "hijab-hasna.firebasestorage.app",
+      messagingSenderId: "501907188626",
+      appId: "1:501907188626:web:691847ee29997a23456f4b",
+      measurementId: "G-XQB8SHBNWT"
+    };
+
+    // Inisialisasi Firebase
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+
+    // Mengecek status login
+    firebase.auth().onAuthStateChanged(user => {
+      if (!user) {
+        // Jika tidak ada user yang login, arahkan ke halaman login
+        window.location.href = "/login.html";
+      } else {
+        // Jika user sudah login, tampilkan informasi pengguna
+        const infoDiv = document.getElementById("user-info");
+        const nameSpan = document.getElementById("userName");
+        nameSpan.textContent = user.displayName || user.email;
+        infoDiv.style.display = "block";
+      }
+    });
+  </script>
+
 </head>
 <body>
 
   <div class="container">
     <h1>📊 Laporan Data Karyawan Toko 2025</h1>
 
+    <!-- Menampilkan info pengguna setelah login -->
+    <div id="user-info" style="display: none;">
+      <p>Selamat datang, <span id="userName"></span></p>
+    </div>
+
+    <!-- Tabel atau laporan -->
     <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTjjIRZ_ojTFe8O3hJZjLT-kV47KuslqHoHdemjvnaF7XRWrTnISJF6m9EReNwm8Mu5ba3K0alle7sB/pubhtml?widget=true&amp;headers=false"></iframe>
 
-    <p style="text-align: center; margin-top: 20px;">
-      <a href="/index.html" style="text-decoration:none; background:#007acc; color:white; padding:10px 20px; border-radius:5px;">⬅️ Kembali ke Menu Utama</a>
+    <p style="margin-top: 20px;">
+      <a href="/index.html">⬅️ Kembali ke Menu Utama</a>
     </p>
   </div>
 
