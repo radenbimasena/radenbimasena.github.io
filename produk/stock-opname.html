@@ -125,13 +125,25 @@
 
   <div id="waktuBerjalan"></div>
 </div>
-
-<footer style="text-align: center; margin-top: 40px; font-size: 14px; color: #666;">
-  <div id="datetime">🕒 Loading...</div>
-  Dibuat oleh <a href="http://tiktok.com/@radenbimasena" target="_blank" style="color: #007bff; text-decoration: none;">@radenbimasena</a>
-</footer>
-
 <script>
+	function displayCreatorInfo() {
+	  const creatorInfo = document.createElement('div');
+	  creatorInfo.style.marginTop = '20px';
+	  creatorInfo.style.textAlign = 'center';
+	  creatorInfo.style.fontSize = '14px';
+	  creatorInfo.innerHTML = `
+		<div>Created by Hayat Imam Subekti</div>
+		<div style="margin-top: 5px;">
+		  Follow on: 
+		  <a href="http://tiktok.com/@radenbimasena" target="_blank" style="color: #0066cc; text-decoration: none;">TikTok</a> 
+		  or 
+		  <a href="https://id.linkedin.com/in/hayumi" target="_blank" style="color: #0066cc; text-decoration: none;">LinkedIn</a>
+		</div>
+	  `;
+	  document.body.appendChild(creatorInfo);
+	}
+
+  
   function updateDateTime() {
     const now = new Date();
     const pad = n => n.toString().padStart(2, '0');
