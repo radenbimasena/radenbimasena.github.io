@@ -244,48 +244,37 @@
 </button>
 
 <script>
-  document.querySelector('form').addEventListener('submit', function(e) {
+<script>
+  document.querySelector('form').addEventListener('submit', async (e) => {
     e.preventDefault();
     
-    // Tampilkan loading
     const btn = e.target.querySelector('button[type="submit"]');
     btn.disabled = true;
-    btn.innerHTML = 'Mengirim...';
+    btn.textContent = 'Mengirim...';
     
-    // Format data
-    const formData = new FormData(this);
-    const data = {};
-    formData.forEach((value, key) => data[key] = value);
-    
-    // Kirim ke Google Apps Script
-    fetch('https://script.google.com/macros/s/AKfycbzUh0OOVb9aYuO6vFW2ihMIu1jPf0ms5PX4irFWR07QHD6xrWv6t3pIKH0HzLkupRbyrg/exec', {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(response => {
-      if (!response.ok) throw new Error('Network error');
-      return response.json();
-    })
-    .then(result => {
-      if(result.result === 'success') {
-        alert('Pendaftaran berhasil! Data telah tersimpan.');
-        this.reset();
-      } else {
-        throw new Error(result.error || 'Unknown error');
-      }
-    })
-    .catch(error => {
-      alert('Gagal mengirim: ' + error.message);
+    try {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbzUh0OOVb9aYuO6vFW2ihMIu1jPf0ms5PX4irFWR07QHD6xrWv6t3pIKH0HzLkupRbyrg/exec', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(e.target)))
+      });
+      
+      if (!response.ok) throw new Error('Gagal mengirim');
+      
+      const result = await response.json();
+      if (result.result !== 'success') throw new Error(result.error || 'Error tidak diketahui');
+      
+      alert('✅ Data berhasil dikirim!');
+      e.target.reset();
+    } catch (error) {
+      alert(`❌ Gagal: ${error.message}`);
       console.error('Error:', error);
-    })
-    .finally(() => {
+    } finally {
       btn.disabled = false;
-      btn.innerHTML = 'Daftar Sekarang';
-    });
+      btn.textContent = 'Daftar Sekarang';
+    }
   });
+</script>
 </script>
 </body>
 </html>
