@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulir Pendaftaran Siswa Baru 2025/2026</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background-color: #efdf00;
+      color: #333;
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+      border: 5px dashed #e4002b;
+      border-radius: 20px;
+    }
+    h1, h2, h3, h4 {
+      text-align: center;
+      color: #050f2c;
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 0;
+    }
+    h3 {
+      font-size: 20px;
+      margin-top: 0;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input[type="text"], input[type="date"], select, textarea {
+      width: 100%;
+      padding: 6px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .section {
+      margin-top: 30px;
+      background-color: #57f287;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+    }
+    ul {
+      list-style-type: square;
+      padding-left: 20px;
+    }
+    .signature {
+      margin-top: 40px;
+      text-align: right;
+    }
+    .signature input {
+      display: inline-block;
+      margin-left: 10px;
+    }
+    .logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+<!-- Tombol Cetak -->
+<button onclick="window.print()" title="Cetak Formulir"
+  style="position: fixed; top: 20px; right: 60px; background: none; border: none; cursor: pointer; font-size: 24px; color: #333; z-index: 1000;">
+  🖨️
+</button>
+
+<div class="logo">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Emoji_u1f3eb.svg/64px-Emoji_u1f3eb.svg.png" alt="Logo Sekolah" style="width:60px;">
+</div>
+
+<h1>YAYASAN KARYA BHAKTI INSANI</h1>
+<h3>Formulir Pendaftaran Siswa/i Baru Tahun Ajaran 2025/2026</h3>
+<p style="text-align:center; font-size: 14px;">
+  Bergerak di Bidang Pendidikan Sosial, Kesehatan dan Keagamaan<br>
+  AKTA NOTARIS IRASI BAKAR, SH. No. 5 / 19 AGUSTUS 2009<br>
+  JL. GAGA RAWA KOMPENI RT.003/004 KEL. KAMAL KEC. KALIDERES, JAKARTA BARAT 11810<br>
+  Telp: 0882-1103-8518
+</p>
+<hr style="border: 3px double #333; margin: 20px 0;">
+<form>
+  <div class="section">
+    <h4>A. IDENTITAS DIRI</h4>
+    <hr style="border: 2px double #050f2c; margin-top: -10px; margin-bottom: 20px;">
+  </div>
+
+  <div class="section">
+    <label>Nama Siswa/i (Sesuai Akta / KK):</label>
+    <input type="text" name="nama_lengkap">
+
+    <label>Nama Panggilan:</label>
+    <input type="text" name="nama_panggilan">    
+
+    <label>Nomor Kartu Keluarga:</label>
+    <input type="text" name="nomor_kk">
+
+    <label>Nomor Induk Kependudukan Anak:</label>
+    <input type="text" name="nik_anak">
+
+	<label>Tempat Lahir:</label>
+	<input type="text" name="tempat_lahir">
+
+	<label>Tanggal Lahir:</label>
+	<input type="date" name="tanggal_lahir">
+
+    <label>Jenis Kelamin:</label>
+    <select name="jenis_kelamin">
+      <option>Laki-laki</option>
+      <option>Perempuan</option>
+    </select>
+
+    <label>Agama:</label>
+    <input type="text" name="agama">
+
+    <label>Anak Ke:</label>
+    <input type="text" name="anak_ke">
+
+    <label>Status dalam Keluarga:</label>
+    <input type="text" name="status_keluarga">
+
+    <label>Alamat Siswa/i:</label>
+    <textarea name="alamat_siswa"></textarea>
+
+    <label>Diterima di:</label>
+    <select name="diterima_di">
+      <option>TK A [2 Tahun]</option>
+      <option>TK B [1 Tahun]</option>
+    </select>
+  </div>
+
+  <div class="section">
+    <h4>B. KETERANGAN KESEHATAN</h4>
+    <hr style="border: 2px double #050f2c; margin-top: -10px; margin-bottom: 20px;">
+  </div>
+
+  <div class="section">
+    <label>Tinggi dan Berat Badan:</label>
+    <input type="text" name="tinggi_berat">
+
+    <label>Golongan Darah:</label>
+    <input type="text" name="golongan_darah">
+
+    <label>Riwayat Kesehatan:</label>
+    <textarea name="riwayat_kesehatan"></textarea>
+  </div>
+
+  <div class="section">
+    <h4>C. IDENTITAS ORANG TUA</h4>
+    <hr style="border: 2px double #050f2c; margin-top: -10px; margin-bottom: 20px;">
+  </div>
+
+  <div class="section">
+    <label>Nama Ayah:</label>
+    <input type="text" name="nama_ayah">
+
+    <label>Nomor Induk Kependudukan Ayah:</label>
+    <input type="text" name="nik_ayah">
+
+	<label>Tempat Lahir:</label>
+	<input type="text" name="tempat_lahir_Ayah">
+
+	<label>Tanggal Lahir:</label>
+	<input type="date" name="tanggal_lahir_Ayah">
+
+    <label>Agama:</label>
+    <input type="text" name="agama_ayah">
+
+    <label>Pendidikan Terakhir:</label>
+    <input type="text" name="pendidikan_ayah">
+
+    <label>Pekerjaan:</label>
+    <input type="text" name="pekerjaan_ayah">
+
+    <label>Alamat:</label>
+    <textarea name="alamat_ayah"></textarea>
+
+    <label>Telp:</label>
+    <input type="text" name="telp_ayah">
+  </div>
+
+  <div class="section">
+    <label>Nama Ibu:</label>
+    <input type="text" name="nama_ibu">
+
+    <label>Nomor Induk Kependudukan Ibu:</label>
+    <input type="text" name="nik_ibu">
+
+	<label>Tempat Lahir:</label>
+	<input type="text" name="tempat_lahir_Ibu">
+
+	<label>Tanggal Lahir:</label>
+	<input type="date" name="tanggal_lahir_Ibu">
+
+    <label>Agama:</label>
+    <input type="text" name="agama_ibu">
+
+    <label>Pendidikan Terakhir:</label>
+    <input type="text" name="pendidikan_ibu">
+
+    <label>Pekerjaan:</label>
+    <input type="text" name="pekerjaan_ibu">
+
+    <label>Alamat:</label>
+    <textarea name="alamat_ibu"></textarea>
+
+    <label>Telp:</label>
+    <input type="text" name="telp_ibu">
+  </div>
+
+  <div class="section">
+    <h4>D. PERSYARATAN</h4>
+    <hr style="border: 2px double #050f2c; margin-top: -10px; margin-bottom: 20px;">
+  </div>
+
+  <div class="section">
+    <ul>
+      <li>Fotocopy Akta Kelahiran dan KK (Kartu Keluarga)</li>
+      <li>Biaya:
+        <ul>
+          <li>Pendaftaran: <strong>Gratis</strong></li>
+          <li>Seragam Sekolah: <strong>Rp. 750.000,-</strong></li>
+          <li>Iuran Bulanan / SPP: <strong>Rp. 60.000,-</strong></li>
+        </ul>
+      </li>
+      <li><em><strong>Khusus bagi anak yatim bebas biaya</strong></em></li>
+    </ul>
+  </div>
+
+<div class="signature">
+  <p>Jakarta, <input type="date" name="tanggal_ttd" style="border:none; border-bottom:1px solid #000; background:transparent; width:150px;"></p>
+  <p>Orang Tua / Wali Murid</p>
+  <br><br>
+  <p style="margin-top: 50px;">( <input type="text" name="nama_ortu" placeholder="Nama" style="border:none; border-bottom:1px solid #000; background:transparent; width:250px; text-align:center;"> )</p>
+</div>
+
+</form>
+
+</body>
+</html>
+
