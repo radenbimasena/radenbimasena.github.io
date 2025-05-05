@@ -289,7 +289,7 @@ body {
     try {
       alert('Harap pilih "Advanced" → "Continue" → "Allow" saat permintaan izin muncul.');
       
-      const response = await fetch('https://script.google.com/macros/s/AKfycby2bPE3gT9oZ5n9KxDiUZODI6Hk_8aBeQmIo_zNi0d7zgvjVo8XMfnlixDjx-tbUvBD/exec', {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbwBwdCc-D62Kkzkh081xuDub5O2Ua0xC0zZHGiLyIUdylRWfI1W27RYululPv38kl6B/exec', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(Object.fromEntries(new FormData(e.target)))
