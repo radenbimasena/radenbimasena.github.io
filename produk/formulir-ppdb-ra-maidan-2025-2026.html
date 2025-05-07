@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulir PPDB RA MAIDAN 2025/2026</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 0.5in;
+    }
+
+    body {
+      font-family: 'Segoe UI', Roboto, sans-serif;
+      background-color: #efdf00;
+      color: #333;
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+      border: 5px dashed #e4002b;
+      border-radius: 20px;
+    }
+
+    h1, h3, h4 {
+      text-align: center;
+      color: #050f2c;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input[type="text"], input[type="date"], select, textarea {
+      width: 100%;
+      padding: 6px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .section {
+      margin-top: 30px;
+      background-color: #57f287;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+    }
+
+    ul {
+      list-style-type: square;
+      padding-left: 20px;
+    }
+
+    .signature {
+      margin-top: 40px;
+      text-align: right;
+    }
+
+    .signature input {
+      display: inline-block;
+      margin-left: 10px;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .submit-btn, .share-btn {
+      background: #e4002b;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      margin: 20px auto;
+      display: block;
+    }
+
+    .share-btn {
+      background: #25D366;
+    }
+
+    .notification {
+      background:#fff8e1;
+      padding:12px;
+      margin:0 0 25px 0;
+      border-left:5px solid #ffc107;
+      border-radius:0 4px 4px 0;
+      font-size: 14px;
+    }
+
+    @media print {
+      button, .notification {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+<h1>YAYASAN KARYA BHAKTI INSANI</h1>
+<h3>Formulir Pendaftaran Siswa/i Baru Tahun Ajaran 2025/2026</h3>
+<p style="text-align:center; font-size: 14px;">
+  Bergerak di Bidang Pendidikan Sosial, Kesehatan dan Keagamaan<br>
+  JL. GAGA RAWA KOMPENI RT.003/004 KEL. KAMAL KEC. KALIDERES, JAKARTA BARAT 11810<br>
+  Telp: 0882-1103-8518
+</p>
+<hr style="border: 3px double #333; margin: 20px 0;">
+
+<div class="notification">
+  <strong>Catatan :</strong> Setelah mengisi formulir, Anda dapat menyimpan TXT, dan atau membagikan data via WhatsApp.
+</div>
+
+<form id="formulir">
+  <!-- A. IDENTITAS DIRI -->
+  <div class="section">
+    <h4>A. IDENTITAS DIRI</h4>
+    <label>Nama Siswa/i:</label>
+    <input type="text" name="nama_lengkap" required>
+    <label>Nama Panggilan:</label>
+    <input type="text" name="nama_panggilan">
+    <label>Nomor KK:</label>
+    <input type="text" name="nomor_kk">
+    <label>NIK Anak:</label>
+    <input type="text" name="nik_anak">
+    <label>Tempat Lahir:</label>
+    <input type="text" name="tempat_lahir">
+    <label>Tanggal Lahir:</label>
+    <input type="date" name="tanggal_lahir">
+    <label>Jenis Kelamin:</label>
+    <select name="jenis_kelamin">
+      <option>Laki-laki</option>
+      <option>Perempuan</option>
+    </select>
+    <label>Agama:</label>
+    <input type="text" name="agama">
+    <label>Anak Ke:</label>
+    <input type="text" name="anak_ke">
+    <label>Status dalam Keluarga:</label>
+    <input type="text" name="status_keluarga">
+    <label>Alamat Siswa:</label>
+    <textarea name="alamat_siswa"></textarea>
+    <label>Diterima di:</label>
+    <select name="diterima_di">
+      <option>TK A [2 Tahun]</option>
+      <option>TK B [1 Tahun]</option>
+    </select>
+  </div>
+
+  <!-- B. KETERANGAN KESEHATAN -->
+  <div class="section">
+    <h4>B. KETERANGAN KESEHATAN</h4>
+    <label>Tinggi dan Berat Badan:</label>
+    <input type="text" name="tinggi_berat">
+    <label>Golongan Darah:</label>
+    <input type="text" name="golongan_darah">
+    <label>Riwayat Kesehatan:</label>
+    <textarea name="riwayat_kesehatan"></textarea>
+  </div>
+
+  <!-- C. IDENTITAS ORANG TUA -->
+  <div class="section">
+    <h4>C. IDENTITAS ORANG TUA</h4>
+    <label>Nama Ayah:</label>
+    <input type="text" name="nama_ayah">
+    <label>NIK Ayah:</label>
+    <input type="text" name="nik_ayah">
+    <label>Tempat Lahir Ayah:</label>
+    <input type="text" name="tempat_lahir_Ayah">
+    <label>Tanggal Lahir Ayah:</label>
+    <input type="date" name="tanggal_lahir_Ayah">
+    <label>Agama Ayah:</label>
+    <input type="text" name="agama_ayah">
+    <label>Pendidikan Ayah:</label>
+    <input type="text" name="pendidikan_ayah">
+    <label>Pekerjaan Ayah:</label>
+    <input type="text" name="pekerjaan_ayah">
+    <label>Alamat Ayah:</label>
+    <textarea name="alamat_ayah"></textarea>
+    <label>Telp Ayah:</label>
+    <input type="text" name="telp_ayah">
+
+    <label>Nama Ibu:</label>
+    <input type="text" name="nama_ibu">
+    <label>NIK Ibu:</label>
+    <input type="text" name="nik_ibu">
+    <label>Tempat Lahir Ibu:</label>
+    <input type="text" name="tempat_lahir_Ibu">
+    <label>Tanggal Lahir Ibu:</label>
+    <input type="date" name="tanggal_lahir_Ibu">
+    <label>Agama Ibu:</label>
+    <input type="text" name="agama_ibu">
+    <label>Pendidikan Ibu:</label>
+    <input type="text" name="pendidikan_ibu">
+    <label>Pekerjaan Ibu:</label>
+    <input type="text" name="pekerjaan_ibu">
+    <label>Alamat Ibu:</label>
+    <textarea name="alamat_ibu"></textarea>
+    <label>Telp Ibu:</label>
+    <input type="text" name="telp_ibu">
+  </div>
+
+  <!-- Signature -->
+  <div class="signature">
+    <p>Jakarta, <input type="date" name="tanggal_ttd" style="border:none; border-bottom:1px solid #000; background:transparent; width:150px;"></p>
+    <p>Orang Tua / Wali Murid</p><br><br>
+    <p>( <input type="text" name="nama_ortu" placeholder="Nama" style="border:none; border-bottom:1px solid #000; background:transparent; width:250px; text-align:center;"> )</p>
+  </div>
+
+  <!-- Buttons -->
+  <button type="button" class="submit-btn" onclick="downloadTxt()">📥 Simpan sebagai TXT</button>
+  <button type="button" class="share-btn" onclick="shareWhatsApp()">📤 Share ke WhatsApp</button>
+</form>
+
+<script>
+function getFormattedData() {
+  const form = document.getElementById('formulir');
+  const data = new FormData(form);
+  const values = [];
+  data.forEach((value) => values.push(value || '-'));
+  return values.join(',');
+}
+
+function getFileName() {
+  const form = document.getElementById('formulir');
+  const nama = new FormData(form).get('nama_lengkap') || 'tanpa_nama';
+  const now = new Date();
+  const yyyy = now.getFullYear();
+  const mm = String(now.getMonth() + 1).padStart(2, '0');
+  const dd = String(now.getDate()).padStart(2, '0');
+  return `ppdbrama_${yyyy}-${mm}-${dd}_${nama.replace(/\s+/g, '_')}.txt`;
+}
+
+function downloadTxt() {
+  const isi = getFormattedData();
+  const blob = new Blob([isi], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = getFileName();
+  a.click();
+}
+
+function shareWhatsApp() {
+  const isi = getFormattedData();
+  const namaFile = getFileName();
+  const pesan = `Assalamu'alaikum,\nBerikut data pendaftaran PPDB RA MAIDAN:\n\n${isi}\n\nNama file: ${namaFile}`;
+  const waURL = `https://wa.me/?text=${encodeURIComponent(pesan)}`;
+  window.open(waURL, '_blank');
+}
+</script>
+</body>
+</html>
