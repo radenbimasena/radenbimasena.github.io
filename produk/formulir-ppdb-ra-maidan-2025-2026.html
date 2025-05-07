@@ -350,6 +350,41 @@ function shareWhatsApp() {
   const waURL = `https://wa.me/?text=${encodeURIComponent(pesan)}`;
   window.open(waURL, '_blank');
 }
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+<script>
+  // Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBRrKuPP5iTD23ougJchfyEx6WxSGdm99M",
+    authDomain: "hijab-hasna.firebaseapp.com",
+    projectId: "hijab-hasna",
+    storageBucket: "hijab-hasna.firebasestorage.app",
+    messagingSenderId: "501907188626",
+    appId: "1:501907188626:web:691847ee29997a23456f4b",
+    measurementId: "G-XQB8SHBNWT"
+  };
+
+  // Inisialisasi Firebase
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+
+  // Mengecek status login
+  firebase.auth().onAuthStateChanged(user => {
+    if (!user) {
+      // Jika tidak ada user yang login, arahkan ke halaman login
+      window.location.href = "/login.html";
+    } else {
+      // Jika user sudah login, tampilkan informasi pengguna
+      const infoDiv = document.getElementById("user-info");
+      const nameSpan = document.getElementById("userName");
+      nameSpan.textContent = user.displayName || user.email;
+      infoDiv.style.display = "block";
+    }
+  });
 </script>
 </body>
 </html>
