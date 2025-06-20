@@ -3,6 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Form Tanda Terima Gaji Karyawan</title>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
 <style>
     body { font-family: Arial, sans-serif; margin: 40px; }
     h1, h2 { text-align: center; }
@@ -167,9 +172,52 @@ function syncNama() {
 function goToHome() {
   window.location.href = "/";
 }
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBRrKuPP5iTD23ougJchfyEx6WxSGdm99M",
+    authDomain: "hijab-hasna.firebaseapp.com",
+    projectId: "hijab-hasna",
+    storageBucket: "hijab-hasna.appspot.com",
+    messagingSenderId: "501907188626",
+    appId: "1:501907188626:web:691847ee29997a23456f4b",
+    measurementId: "G-XQB8SHBNWT"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  auth.onAuthStateChanged(user => {
+    if (!user) {
+      window.location.href = "/login.html";
+    } else {
+      document.getElementById("userName").textContent = user.displayName || user.email;
+      document.getElementById("user-info").style.display = "block";
+    }
+  });
+
+  function simpanKeFirestore(jenis, isiData) {
+    const user = auth.currentUser;
+    if (!user) return;
+    db.collection("riwayat").add({
+      user: user.displayName || "Tanpa Nama",
+      email: user.email,
+      jenis: jenis,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      data: isiData
+    }).then(() => {
+      console.log("Riwayat tersimpan.");
+    }).catch(err => {
+      console.error("Gagal simpan riwayat:", err);
+    });
+  }
 </script>
 </head>
 <body>
+<div id="user-info" style="text-align:right; margin-bottom:10px; font-weight:bold; display: none;">
+  👤 Login sebagai: <span id="userName">...</span>
+</div>
+
 <div style="background-color: #fce803; padding: 10px; text-align: center; font-weight: bold;">
   🚨 Domain ini sedang dijual! <a href="https://www.godaddy.com/domainsearch/find?checkAvail=1&tmskey=&domainToCheck=hijabhasna.com" target="_blank">Klik di sini untuk beli via GoDaddy</a>
 </div>
@@ -285,8 +333,11 @@ function goToHome() {
     Rini - 0812.8632.9987</li>
   </ol>
 </div>
-<button class="cetak-btn" onclick="cetakSlip()">Cetak</button>
-<button onclick="goToHome()" style="background-color: #2196F3; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;">
-  ⬅ Kembali ke Menu Awal
+<div style="margin-top:20px;">
+  <button class="cetak-btn" onclick="cetakSlip()">Cetak</button>
+  <button onclick="goToHome()" style="background-color: #2196F3; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;">
+    ⬅ Kembali ke Menu Awal
+  </button>
+</div>
 </body>
 </html>
