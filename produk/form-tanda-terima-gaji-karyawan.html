@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Form Tanda Terima Gaji Karyawan</title>
+<style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    h1, h2 { text-align: center; }
+    .underline-double { border-bottom: 3px double #000; margin-bottom: 10px; }
+    .underline { border-bottom: 1px solid #000; margin: 10px 0; }
+    table { width: 100%; margin-top: 10px; border-collapse: collapse; }
+    td { padding: 5px; vertical-align: top; }
+    input[type="text"], input[type="number"], input[type="date"], select { padding: 3px; }
+    .input-kecil { width: 50px; text-align: right; }
+    .input-sedang { width: 100px; text-align: right; }
+    .input-lebar { width: 180px; text-align: right; }
+    .input-lebar-kiri { width: 180px; text-align: left; }
+    .rp-col { width: 70px; text-align: right; }
+    .right-align { text-align: right; }
+    .hide { display: none; }
+    .bank-input { width: 80px; }
+    .rek-input { width: 250px; }
+    #slip-container { margin-top: 20px; }
+    .cetak-btn { padding: 8px 16px; background: #333; color: #fff; border: none; cursor: pointer; margin-top: 20px; }
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-size: 12pt;
+    color: #000;
+  }
+
+  .cetak-btn {
+    display: none;
+  }
+
+  input[type="text"], input[type="number"], input[type="date"], select {
+    border: none;
+    background: transparent;
+    font-size: 12pt;
+  }
+
+  .underline-double, .underline {
+    border: none;
+    border-bottom: 2px solid #000;
+  }
+
+  .sign-area {
+    margin-top: 30px;
+  }
+
+  .catatan {
+    font-size: 11pt;
+  }
+
+  /* Tambahan supaya slip-container dan catatan tidak terpotong halaman */
+  #slip-container, .catatan {
+    page-break-inside: avoid;
+  }
+}
+</style>
+<script>
+function formatRupiah(angka) {
+    if (angka === "" || angka === null) return "";
+    angka = angka.toString().replace(/[^,\d]/g, "");
+    let split = angka.split(",");
+    let sisa = split[0].length % 3;
+    let rupiah = split[0].substr(0, sisa);
+    let ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+    if (ribuan) {
+        let separator = sisa ? "." : "";
+        rupiah += separator + ribuan.join(".");
+    }
+    rupiah = split[1] !== undefined ? rupiah + "," + split[1] : rupiah;
+    return rupiah;
+}
+
+function formatInputRupiah(el) {
+    el.value = formatRupiah(el.value);
+}
+
+function unformatRupiah(rp) {
+    return parseInt(rp.replace(/[^0-9]/g, "")) || 0;
+}
+
+function hitung() {
+    const gajiHari = parseInt(document.getElementById("gaji_hari").value) || 0;
+    const gajiUang = unformatRupiah(document.getElementById("gaji_uang").value);
+    const gajiTotal = gajiHari * gajiUang;
+    document.getElementById("gaji_total").value = formatRupiah(gajiTotal);
+
+    const makanHari = parseInt(document.getElementById("makan_hari").value) || 0;
+    const makanUang = unformatRupiah(document.getElementById("makan_uang").value);
+    const makanTotal = makanHari * makanUang;
+    document.getElementById("makan_total").value = formatRupiah(makanTotal);
+
+    const lemburHari = parseInt(document.getElementById("lembur_hari").value) || 0;
+    const lemburUang = unformatRupiah(document.getElementById("lembur_uang").value);
+    const lemburTotal = lemburHari * lemburUang;
+    document.getElementById("lembur_total").value = formatRupiah(lemburTotal);
+
+    const kerajinan = unformatRupiah(document.getElementById("kerajinan").value);
+    const jabatan = unformatRupiah(document.getElementById("jabatan").value);
+
+    document.getElementById("kerajinan_total").value = formatRupiah(kerajinan);
+    document.getElementById("jabatan_total").value = formatRupiah(jabatan);
+
+    const totalGaji = gajiTotal + makanTotal + lemburTotal + kerajinan + jabatan;
+    document.getElementById("total_gaji").value = formatRupiah(totalGaji);
+
+    updateMetodeGaji();
+}
+
+function updateMetodeGaji() {
+    const metode = document.getElementById("metode_gaji").value;
+    const totalGaji = document.getElementById("total_gaji").value;
+    const tunaiBox = document.getElementById("tunai_box");
+    const transferBox = document.getElementById("transfer_box");
+
+    if (metode === "tunai") {
+        tunaiBox.classList.remove("hide");
+        transferBox.classList.add("hide");
+        document.getElementById("tunai_input").value = totalGaji;
+    } else if (metode === "transfer") {
+        tunaiBox.classList.add("hide");
+        transferBox.classList.remove("hide");
+    } else {
+        tunaiBox.classList.add("hide");
+        transferBox.classList.add("hide");
+    }
+}
+
+function cetakSlip() {
+    const totalGaji = document.getElementById("total_gaji").value;
+    if (totalGaji === "" || totalGaji === "0") {
+        alert("Mohon isi dan hitung total gaji terlebih dahulu sebelum mencetak.");
+        return;
+    }
+    window.print();
+}
+
+window.onload = function() {
+  document.querySelector('.input-lebar-kiri').focus();
+
+  const textInputs = document.querySelectorAll('input[type="text"]');
+  textInputs.forEach(function(input) {
+    input.addEventListener('input', function() {
+      this.value = this.value.toUpperCase();
+    });
+  });
+}
+
+function syncNama() {
+  var namaKaryawan = document.getElementById("namaInput").value;
+  var namaKepala = document.getElementById("kepalaInput").value;
+
+  document.getElementById("ttdPenerima").value = namaKaryawan.toUpperCase();
+  document.getElementById("ttdKepala").value = namaKepala.toUpperCase();
+}
+</script>
+</head>
+
+<body>
+<div style="background-color: #fce803; padding: 10px; text-align: center; font-weight: bold;">
+  🚨 Domain ini sedang dijual! <a href="https://www.godaddy.com/domainsearch/find?checkAvail=1&tmskey=&domainToCheck=hijabhasna.com" target="_blank">Klik di sini untuk beli via GoDaddy</a>
+</div>
+<h1>PD. SENANG HATI</h1>
+<div class="underline-double"></div>
+<h2>FORM TANDA TERIMA GAJI KARYAWAN</h2>
+
+<div id="slip-container">
+<table>
+<tr>
+  <td>Nama Kepala Toko</td>
+  <td>: <input type="text" id="kepalaInput" class="input-lebar-kiri" oninput="syncNama()"></td>
+</tr>
+<tr>
+  <td>Nama KASIR</td>
+  <td>: <input type="text" id="namaInput" class="input-lebar-kiri" oninput="syncNama()"></td>
+</tr>
+<tr><td>Rincian Gaji Bulan</td><td>: <input type="text" class="input-lebar-kiri"></td></tr>
+<tr>
+  <td>Perhitungan Tanggal</td>
+  <td>: 
+    <input type="date" class="input-lebar-kiri"> 
+    s.d 
+    <input type="date" class="input-lebar-kiri">
+  </td>
+</tr>
+<tr><td>Lokasi</td><td>: <input type="text" class="input-lebar-kiri"></td></tr>
+<tr><td>Jabatan</td><td>: <input type="text" class="input-lebar-kiri"></td></tr>
+</table>
+
+<div class="underline"></div>
+
+<table>
+<tr>
+    <td>Gaji Pokok</td>
+    <td>: <input type="number" id="gaji_hari" oninput="hitung()" class="input-kecil"> x <input type="text" id="gaji_uang" oninput="formatInputRupiah(this);hitung()" class="input-sedang"></td>
+    <td class="rp-col">=</td>
+    <td><input type="text" id="gaji_total" readonly class="input-lebar"></td>
+</tr>
+<tr>
+    <td>Uang Makan</td>
+    <td>: <input type="number" id="makan_hari" oninput="hitung()" class="input-kecil"> x <input type="text" id="makan_uang" oninput="formatInputRupiah(this);hitung()" class="input-sedang"></td>
+    <td class="rp-col">=</td>
+    <td><input type="text" id="makan_total" readonly class="input-lebar"></td>
+</tr>
+<tr>
+    <td>Lembur</td>
+    <td>: <input type="number" id="lembur_hari" oninput="hitung()" class="input-kecil"> x <input type="text" id="lembur_uang" oninput="formatInputRupiah(this);hitung()" class="input-sedang"></td>
+    <td class="rp-col">=</td>
+    <td><input type="text" id="lembur_total" readonly class="input-lebar"></td>
+</tr>
+<tr>
+    <td>Tunjangan Kerajinan</td>
+    <td>: <input type="text" id="kerajinan" oninput="formatInputRupiah(this);hitung()" class="input-sedang"></td>
+    <td class="rp-col">=</td>
+    <td><input type="text" id="kerajinan_total" readonly class="input-lebar"></td>
+</tr>
+<tr>
+    <td>Tunjangan Jabatan</td>
+    <td>: <input type="text" id="jabatan" oninput="formatInputRupiah(this);hitung()" class="input-sedang"></td>
+    <td class="rp-col">=</td>
+    <td><input type="text" id="jabatan_total" readonly class="input-lebar"></td>
+</tr>
+<tr>
+    <td>Metode Gaji</td>
+    <td colspan="3">: 
+        <select id="metode_gaji" onchange="updateMetodeGaji()">
+            <option value="">-- Pilih --</option>
+            <option value="tunai">Tunai</option>
+            <option value="transfer">Transfer</option>
+        </select>
+        <span id="tunai_box" class="hide"> <input type="text" id="tunai_input" readonly class="input-lebar"> </span>
+        <span id="transfer_box" class="hide">
+            Bank: <input type="text" maxlength="8" class="bank-input" placeholder="Bank">
+            No.Rek: <input type="text" class="rek-input" placeholder="Nomor Rekening">
+        </span>
+    </td>
+</tr>
+</table>
+
+<div class="underline"></div>
+<p><b>Total Gaji Keseluruhan =</b> <input type="text" id="total_gaji" readonly class="input-lebar"></p>
+</div>
+
+<div class="sign-area">
+<p>
+  Tanggal: <input type="date">
+</p>
+<table width="100%">
+<tr>
+  <td style="text-align:center">Kepala Toko</td>
+  <td style="text-align:center">Penerima</td>
+</tr>
+<tr>
+  <td height="60"></td>
+  <td></td>
+</tr>
+<tr>
+  <td style="text-align:center">
+    (<input type="text" id="ttdKepala" class="input-lebar-kiri" style="border:none; border-bottom:1px solid #000; text-align:center">)
+  </td>
+  <td style="text-align:center">
+    (<input type="text" id="ttdPenerima" class="input-lebar-kiri" style="border:none; border-bottom:1px solid #000; text-align:center">)
+  </td>
+</tr>
+</table>
+<div class="catatan">
+  <p><strong>Catatan:</strong></p>
+  <ol>
+    <li>Slip gaji harap ditandatangani oleh penerima <b>"SETELAH"</b> jelas dengan jumlah gajinya.</li>
+    <li>Apabila ada pengaduan soal gaji yang tidak dapat diselesaikan oleh kepala toko setempat harap hubungi:<br>
+    Rini - 0812.8632.9987</li>
+  </ol>
+</div>
+<button class="cetak-btn" onclick="cetakSlip()">Cetak</button>
+</body>
+</html>
