@@ -196,7 +196,7 @@
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const gmtOffset = -now.getTimezoneOffset() / 60;
     const gmtString = `GMT ${gmtOffset >= 0 ? '+' : ''}${gmtOffset}`;
-              const timeString = `${now.getFullYear()} Tahun - ${now.getMonth()+1} Bulan - ${now.getDate()} Tanggal | ${now.getHours()} Jam : ${now.getMinutes()} Menit : ${now.getSeconds()} Detik `;
+              const timeString = `${now.getFullYear()} Tahun - ${now.getMonth()+1} Bulan - ${now.getDate()} Tanggal ⇄ ${now.getHours()} Jam : ${now.getMinutes()} Menit : ${now.getSeconds()} Detik `;
     document.getElementById('footerTime').innerText = timeString;
   }
   setInterval(updateFooterTime, 1000);
