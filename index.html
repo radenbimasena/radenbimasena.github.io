@@ -76,22 +76,29 @@
       transform: scale(1.05);
       background: linear-gradient(135deg, #ff758c, #ff7eb3);
     }
-    .topnav {
-      text-align: right;
-      margin: 10px 20px;
-    }
-    .topnav a {
-      text-decoration: none;
-      padding: 10px 15px;
-      background: #ff758c;
-      color: white;
-      border-radius: 6px;
-      font-weight: bold;
-      margin-left: 5px;
-    }
-    .topnav a:hover {
-      background-color: #e95070;
-    }
+.topnav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+  margin: 10px 20px;
+}
+.topnav a {
+  text-decoration: none;
+  padding: 8px 14px;
+  background: #ff758c;
+  color: white;
+  border-radius: 6px;
+  font-weight: bold;
+}
+.topnav a:hover {
+  background-color: #e95070;
+}
+@media (max-width: 480px) {
+  .topnav {
+    justify-content: center;
+  }
+}
     footer {
       margin-top: 40px;
       color: #fff;
